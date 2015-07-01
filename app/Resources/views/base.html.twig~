@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link href="{{ asset('css/forms.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+	<div id="container">
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+ExclusiveBooks\DemoAppBundle\Entity\SmsAudit:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        recipientNumber:
+            type: string
+            length: '30'
+            column: RecipientNumber
+        smsText:
+            type: string
+            length: '600'
+            column: SmsText
+        sendStatus:
+            type: string
+            length: '1'
+            column: SendStatus
+        sendResult:
+            type: string
+            length: '255'
+            column: SendResult
+            nullable: true
+        queueDate:
+            type: datetime
+            column: QueueDate
+        queueUser:
+            type: string
+            length: '50'
+            column: QueueUser
+        sendDate:
+            type: datetime
+            column: SendDate
+            nullable: true
+        sendUser:
+            type: string
+            length: '50'
+            column: SendUser
+            nullable: true
+    lifecycleCallbacks: 
+        prePersist: [setQueuedAtValue]
+        preUpdate: [setSentAtValue]

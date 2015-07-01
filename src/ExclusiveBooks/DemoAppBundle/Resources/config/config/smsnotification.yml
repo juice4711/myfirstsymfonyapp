@@ -1,0 +1,32 @@
+parameters:
+    smsnotification.username: "justine@exclusivebooks.co.za"
+    smsnotification.passphrase: "W1nds0r"
+    smsnotification.recipientno: "0794952301"
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     'localhost'
+            port:     5672
+            user:     'guest'
+            password: 'W1nds0r'
+            vhost:    '/'
+            lazy:     true
+            connection_timeout: 3
+            read_write_timeout: 3
+
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+    producers:
+        sms_notification:
+            connection:       default
+            exchange_options: {name: 'sms-notification', type: direct}
+    consumers:
+        sms_notification:
+            connection:       default
+            exchange_options: {name: 'sms-notification', type: direct}
+            queue_options:    {name: 'sms-notification'}
+            callback:         sms_notification_service

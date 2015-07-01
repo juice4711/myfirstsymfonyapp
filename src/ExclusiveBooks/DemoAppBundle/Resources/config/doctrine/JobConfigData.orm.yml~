@@ -1,0 +1,27 @@
+ExclusiveBooks\DemoAppBundle\Entity\JobConfigData:
+    type: entity
+    table: null
+    repositoryClass: ExclusiveBooks\DemoAppBundle\Entity\JobConfigDataRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        configName:
+            type: string
+            length: '20'
+            column: ConfigName
+        configValue:
+            type: string
+            length: '200'
+            column: ConfigValue
+    lifecycleCallbacks: {  }
+    manyToOne:
+        job:
+            targetEntity: JobDescription
+            inversedBy: jobconfig
+            joinColumn:
+                name: job_id
+                referencedColumnName: id

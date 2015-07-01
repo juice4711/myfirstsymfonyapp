@@ -1,0 +1,17 @@
+ExclusiveBooks\DemoAppBundle\Entity\RefreshToken:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    lifecycleCallbacks: { }
+    manyToOne:
+        server:
+            targetEntity: Client
+            inversedBy: clients
+            joinColumn:
+                name: client_id
+                referencedColumnName: id

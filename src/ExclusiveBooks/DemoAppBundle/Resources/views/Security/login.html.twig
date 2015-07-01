@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div id="clear">
+	<p>
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+  </div>
+<div id="leftSide">
+		<fieldset>
+		<legend>Login</legend>
+			<form action="{{ path('login_check') }}" method="post">
+			    <label for="username">Username:</label>
+			     <div class="div_texbox">
+			    <input type="text" id="username" class="textbox" name="_username" value="{{ last_username }}" />
+			    </div>
+			    <label for="password">Password:</label>
+			     <div class="div_texbox">
+			    <input type="password" id="password" class="textbox" name="_password" />
+			    </div>
+
+			    <input type="hidden" name="_target_path" value="/admin/jobs" />
+
+			    	<div class="button_div">
+					<input name="submit" type="submit" value="Login" class="buttons" />
+				</div>
+			</form>
+		</fieldset>
+	</div>
+{% endblock %}
+

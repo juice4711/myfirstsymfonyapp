@@ -1,0 +1,11 @@
+services:
+    webservice_user_provider:
+        class: ExclusiveBooks\DemoAppBundle\Security\User\WebserviceUserProvider
+    exc_custom_md5password_encoder:
+        class: ExclusiveBooks\DemoAppBundle\Services\CustomMd5PasswordEncoder
+    sms_notification_service:  
+        class: ExclusiveBooks\DemoAppBundle\Consumer\SmsTaskConsumer  
+        arguments: [ '@doctrine.orm.entity_manager','@service_container']
+#    exclusive_books_demo_app.example:
+#        class: ExclusiveBooks\DemoAppBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

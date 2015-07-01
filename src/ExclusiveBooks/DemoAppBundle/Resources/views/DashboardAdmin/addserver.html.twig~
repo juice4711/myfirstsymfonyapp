@@ -1,0 +1,27 @@
+<link href="{{ asset('css/forms.css') }}" rel="stylesheet" type="text/css" />
+{% form_theme form 'form/fields.html.twig' %}
+
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div class="form_row" >
+        {{ form_label(form.servername, 'Server Name') }}
+        {{ form_errors(form.servername) }}
+        {{ form_widget(form.servername) }}
+    </div>
+
+    <div class="form_row">
+        {{ form_label(form.serverip, 'Server IP') }}
+        {{ form_widget(form.serverip) }}
+        {{ form_errors(form.serverip) }}
+    </div>
+    <div class="form_row">
+        {{ form_label(form.serverlocation, 'Server Location') }}
+        {{ form_widget(form.serverlocation) }}
+        {{ form_errors(form.serverlocation) }}
+    </div>
+    <div class="form_row">
+        {{ form_widget(form.addserver) }}
+    </div>
+
+{{ form_end(form) }}

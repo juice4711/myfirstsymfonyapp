@@ -1,0 +1,10 @@
+.form_row {
+	width:287px;
+	float:right;
+	background-color:#fff;
+	border:1px solid #ccc;
+	text-align:right;
+	height:27px;
+	margin-top:3px;
+	padding:2px 32px 2px;
+}

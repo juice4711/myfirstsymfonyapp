@@ -1,0 +1,25 @@
+parameters:
+    smsnotification.username: "justine@exclusivebooks.co.za"
+    smsnotification.passphrase: "W1nds0r"
+    smsnotification.recipientno: "0794952301"
+
+old_sound_rabbit_mq:  
+    connections:  
+        default:  
+            host:     'localhost'  
+            port:     5672  
+            user:     'guest'  
+            password: 'W1nds0r'  
+            vhost:    '/'  
+            lazy:     false  
+    producers:  
+        add_mail_task:  
+            connection:       default  
+            exchange_options: {name: 'mail-task', type: direct}  
+    consumers:  
+        get_mail_task:  
+            connection:       default  
+            exchange_options: {name: 'mail-task', type: direct}  
+            queue_options:    {name: 'mail-task'}  
+            callback:         mail_task_consumer  
+            idle_timeout:     60  

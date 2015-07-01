@@ -1,0 +1,48 @@
+admin_jobs:
+    path:     /
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:index" }
+
+admin_jobs_show:
+    path:     /{id}/show
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:show" }
+
+admin_jobs_new:
+    path:     /new
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:new" }
+
+admin_jobs_clone:
+    path:     /{id}/clone
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:clone" }
+    methods:  [POST, PUT]
+
+admin_jobs_create:
+    path:     /create
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:create" }
+    methods:  POST
+
+admin_jobs_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:edit" }
+
+admin_jobs_update:
+    path:     /{id}/update
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:update" }
+    methods:  [POST, PUT]
+
+admin_jobs_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:delete" }
+    methods:  [POST, DELETE]
+
+admin_link_user:
+    path:     /{id}/link
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:linkUser" }
+    methods:  [POST]
+admin_unlink_user:
+    path:     /{id}/unlink
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:unlink" }
+    methods:  [POST]
+admin_jobs_configadd:
+    path:     /{id}/addconfig
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:JobDescription:addconfig" }
+    methods:  [POST, PUT]

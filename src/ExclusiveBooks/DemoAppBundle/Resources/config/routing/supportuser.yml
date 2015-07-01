@@ -1,0 +1,30 @@
+admin_supportuser:
+    path:     /
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:index" }
+
+admin_supportuser_show:
+    path:     /{id}/show
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:show" }
+
+admin_supportuser_new:
+    path:     /new
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:new" }
+
+admin_supportuser_create:
+    path:     /create
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:create" }
+    methods:  POST
+
+admin_supportuser_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:edit" }
+
+admin_supportuser_update:
+    path:     /{id}/update
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:update" }
+    methods:  [POST, PUT]
+
+admin_supportuser_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:SupportUser:delete" }
+    methods:  [POST, DELETE]

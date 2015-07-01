@@ -1,0 +1,27 @@
+security:
+    providers:
+        webservice:
+            id: webservice_user_provider
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        default:
+            anonymous: ~
+            form_login:
+                login_path: /login
+                check_path: /login_check
+            logout:
+                 path:   logout # a route called logout
+                 target: login  # a route called event
+        stores:
+            pattern: ^/stores
+            security: false
+    encoders:
+        ExclusiveBooks\EBFosBundle\Security\User\WebserviceUser: 
+            id: exc_custom_md5password_encoder
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+

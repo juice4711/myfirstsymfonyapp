@@ -1,0 +1,28 @@
+exclusive_books_demo_app_admin_jobs_:
+    resource: "@ExclusiveBooksDemoAppBundle/Resources/config/routing/jobdescription.yml"
+    prefix:   /admin/jobs/
+
+exclusive_books_demo_app_admin_supportuser:
+    resource: "@ExclusiveBooksDemoAppBundle/Resources/config/routing/supportuser.yml"
+    prefix:   /admin/supportuser
+
+exclusive_books_demo_app_admin_server:
+    resource: "@ExclusiveBooksDemoAppBundle/Resources/config/routing/server.yml"
+    prefix:   /admin/server
+
+exclusive_books_demo_app_stores:
+    resource: "@ExclusiveBooksDemoAppBundle/Resources/config/routing/stores.yml"
+    prefix:   /stores
+
+admin:
+    path:     /admin
+    defaults: { _controller: ExclusiveBooksDemoAppBundle:DashboardAdmin:index }
+login:
+    path:   /login
+    defaults: { _controller: ExclusiveBooksDemoAppBundle:Security:login }
+login_check:
+    path:   /login_check
+    defaults: { _controller: ExclusiveBooksDemoAppBundle:Security:login_check }
+logout:
+    path:   /logout
+

@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+   <div id="clear">
+		{% for flashMessage in app.session.flashbag.get('notice') %}
+		<div class="flash-notice">
+			{{ flashMessage }}
+		</div>
+		{% endfor %}
+	</div>
+	<div id="leftSide">
+		<fieldset><legend class="buttonlegend">
+			<span class="buttonspan" onclick="document.location.href = '{{ path('admin_supportuser_edit', { 'id': entity.id }) }}'">Support User</span></legend>
+		{{ entity.avatar|raw }}
+		<table class='rightTable'>
+		  <tbody>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>User Name</th>
+			<td class='orderlisttd'>{{ entity.userName }}</td>
+		   </tr>
+		   <tr class="orderlist  highlight">
+		        <td class='orderlisttd'>Given Name</th>
+		<td>{{ entity.givenName }}</td>
+		</tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>User Email</th>
+			<td class='orderlisttd'>{{ entity.userEmail }}</td>
+		   </tr>
+		   <tr class="orderlist  highlight">
+		        <td class='orderlisttd'>User Email Alt</th>
+		<td>{{ entity.userEmailAlt }}</td>
+		</tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>User Contact</th>
+		<td>{{ entity.userContact }}</td>
+		</tr>
+		   <tr class="orderlist  highlight">
+		        <td class='orderlisttd'>User Contact Alt</th>
+		<td>{{ entity.userContactAlt }}</td>
+		</tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>User Contact Internal</th>
+		<td>{{ entity.userContactInternal }}</td>
+		</tr>
+		   <tr class="orderlist highlight">
+		        <td class='orderlisttd'>Cerberus Id</th>
+		<td>{{ entity.cerberusID }}</td>
+		</tr>
+		</tbody>
+	    </table>
+	  </fieldset>
+	</div>
+
+	{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+
+{% endblock %}
+

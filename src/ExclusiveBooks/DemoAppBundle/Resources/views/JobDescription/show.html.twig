@@ -1,0 +1,101 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+  <div id="clear">
+		{% for flashMessage in app.session.flashbag.get('notice') %}
+		<div class="flash-notice">
+			{{ flashMessage }}
+		</div>
+		{% endfor %}
+	</div>
+	<div id="leftSide">
+		<fieldset><legend class="buttonlegend">
+			<span class="buttonspan" onclick="document.location.href = '{{ path('admin_jobs_edit', { 'id': entity.id }) }}'">Job Details</span></legend>
+		<table class='rightTable'>
+		  <tbody>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Job Identifier</td>
+			<td class='orderlisttd'>{{ entity.jobIdentifier }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Job Name</td>
+			<td class='orderlisttd'>{{ entity.jobName }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Comments</td>
+			<td class='orderlisttd'>{{ entity.jobComment }}</td>
+		   </tr>		
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Run</td>
+			<td class='orderlisttd'>{{ entity.runType }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Cron Schedule</td>
+			<td class='orderlisttd'>{{ entity.cronSChedule }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Script Location</td>
+			<td class='orderlisttd'>{{ entity.scriptLocation }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Script Identifier</td>
+			<td class='orderlisttd'>{{ entity.scriptIdentifier }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Job Status</td>
+			<td class='orderlisttd'>{{ entity.jobStatus|showstatus }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Control Table</td>
+			<td class='orderlisttd'>{{ entity.controlTable }}</td>
+		   </tr>
+		   <tr class="orderlist">
+		        <td class='orderlisttd'>Job Arguments</td>
+			<td class='orderlisttd'>{{ entity.jobArguments }}</td>
+		   </tr>
+          	   <tr class="orderlist">
+		        <td class='orderlisttd'>Escalation Chain</td>
+			<td class='orderlisttd'>{{ entity.escalationChain }}</td>
+		   </tr>
+		<tr class="orderlist">
+		        <td class='orderlisttd'>&nbsp;</td>
+		        <td class='orderlisttd'><input name="submit" type="button" onclick="parent.location.href = '{{ path('admin_jobs_edit', { 'id': entity.id }) }}'" value="Edit"  /> <span style="float:right">{{ form(delete_form) }}</span></td>
+		    </tr>
+		</tbody>
+        </tbody>
+    </table>
+	</fieldset>
+	<p>
+	<fieldset>
+		<legend>Config Variables</legend>
+		<table class='rightTable'>
+		{% for line in config %}
+			<tr class="{{ cycle(['orderlist highlight','orderlist'],loop.index) }}" >
+			<td class='orderlisttd'>{{ line.configName }}</td>
+			<td class='orderlisttd'>{{ line.configValue }}</td>
+		</tr>
+		{% endfor %}
+		</table>
+	</fieldset>
+	<p>
+	<fieldset>
+		<legend>Linked Support Users</legend>
+		<table class='rightTable'>
+		{% for user in users %}
+			<tr class="{{ cycle(['orderlist highlight','orderlist'],loop.index) }}" >
+			<td class='orderlisttd'>{{ user.linkuser.avatar|raw }}</td>
+			<td class='orderlisttd'>{{ user.linkuser.userName }}</td>
+			<td class='orderlisttd'>{{ user.linkuser.givenName }}</td>
+			<td class='orderlisttd'>{{ user.linkuser.userEmail }}</td>
+		</tr>
+		{% endfor %}
+		</table>
+	</fieldset>
+
+	</div>
+
+	{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+
+    {% endblock %}
+
+

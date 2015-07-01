@@ -1,0 +1,7 @@
+store_welcome:
+    path:   /welcome
+    defaults: { _controller: ExclusiveBooksDemoAppBundle:Stores:welcome}
+store_send_sms:
+    path:   /sendsms
+    defaults: { _controller: ExclusiveBooksDemoAppBundle:Stores:sendsms}
+    methods:  POST

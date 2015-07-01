@@ -1,0 +1,24 @@
+ExclusiveBooks\DemoAppBundle\Entity\JobLinkUsers:
+    type: entity
+    table: null
+    repositoryClass: ExclusiveBooks\DemoAppBundle\Entity\ServerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        UserId:
+            type: integer
+            column: user_id
+    lifecycleCallbacks:
+        prePersist: { }
+    manyToOne:
+        linkjob:
+            targetEntity: JobDescription
+            inversedBy: joblink
+            joinColumn:
+                name: job_id
+                referencedColumnName: id
+

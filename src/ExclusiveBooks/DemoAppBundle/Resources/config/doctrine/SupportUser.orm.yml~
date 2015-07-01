@@ -1,0 +1,53 @@
+ExclusiveBooks\DemoAppBundle\Entity\SupportUser:
+    type: entity
+    table: null
+    repositoryClass: ExclusiveBooks\DemoAppBundle\Entity\SupportUserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        userName:
+            type: string
+            length: '50'
+            column: UserName
+        userEmail:
+            type: string
+            length: '300'
+            column: UserEmail
+        userEmailAlt:
+            type: string
+            length: '50'
+            column: UserEmailAly
+        userContact:
+            type: string
+            length: '30'
+            column: UserContact
+        userContactAlt:
+            type: string
+            length: '30'
+            column: UserContactAlt
+        cerberusID:
+            type: string
+            length: '50'
+            column: CerberusID
+        givenName:
+            type: string
+            length: '200'
+            column: GivenName
+        avatar:
+            type: string
+            length: '300'
+            column: Avatar
+        userContactInternal:
+            type: string
+            length: '30'
+            column: UserContactInternal
+    lifecycleCallbacks: {  }
+    oneToMany:
+	userlink:
+            targetEntity: JobLinkUsers
+            mappedBy: linkuser
+   

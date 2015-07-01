@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {{ form_start(form) }}
+	<div id="clear">
+	<p>
+		{{ form_errors(form.userName) }}
+		{{ form_errors(form.givenName) }}
+		{{ form_errors(form.userContact) }}
+		{{ form_errors(form.userContactAlt) }}
+		{{ form_errors(form.userContactInternal) }}
+		{{ form_errors(form.userEmail) }}
+		{{ form_errors(form.userEmailAlt) }}
+		{{ form_errors(form.cerberusID) }}
+		{{ form_errors(form.avatar) }}
+		{{ form_errors(form) }}
+	</p>
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Add Support User</legend>
+		
+		{{ form_label(form.userName, 'User Name') }}
+		<div class="div_texbox">{{ form_widget(form.userName) }}</div>
+		
+		{{ form_label(form.givenName, 'Given Name') }}
+		<div class="div_texbox">{{ form_widget(form.givenName) }}</div>
+
+		{{ form_label(form.userContact, 'Contact') }}
+		<div class="div_texbox">{{ form_widget(form.userContact) }}</div>
+
+		{{ form_label(form.userContactAlt, 'Contact Alternate') }}
+		<div class="div_texbox">{{ form_widget(form.userContactAlt) }}</div>
+	
+		{{ form_label(form.userContactInternal, 'Contact Internal') }}
+		<div class="div_texbox">{{ form_widget(form.userContactInternal) }}</div>
+	
+		{{ form_label(form.userEmail, 'Email') }}
+		<div class="div_texbox">{{ form_widget(form.userEmail) }}</div>
+
+		{{ form_label(form.userEmailAlt, 'Email Alternate') }}
+		<div class="div_texbox">{{ form_widget(form.userEmailAlt) }}</div>
+
+		{{ form_label(form.cerberusID, 'Cerberus Id') }}
+		<div class="div_texbox">{{ form_widget(form.cerberusID) }}</div>
+
+		{{ form_label(form.avatar, 'Avatar') }}
+		<div class="div_texbox">{{ form_widget(form.avatar) }}</div>
+	
+		<div class="button_div">{{ form_widget(form.submit) }}</div>
+		</fieldset>
+	</div>
+{{ form_end(form) }}
+
+{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+{% endblock %}
+
+

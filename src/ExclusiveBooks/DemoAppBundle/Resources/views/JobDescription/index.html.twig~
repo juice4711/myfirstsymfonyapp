@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+  <div id="clear">
+		{% for flashMessage in app.session.flashbag.get('notice') %}
+		<div class="flash-notice">
+			{{ flashMessage }}
+		</div>
+		{% endfor %}
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Jobs</legend>
+
+			<table class='rightTable'>
+        {% for entity in entities %}
+		<tr class="{{ cycle(['orderlist highlight','orderlist'],loop.index) }}" >
+			<td class='orderlisttd'>{{ entity.jobIdentifier }}</td>
+			<td class='orderlisttd'>{{ entity.jobName }}</td>
+			<td class='orderlisttd'>{{ entity.jobComment }}</td>
+			<td class='orderlisttd'>{{ entity.jobStatus|showstatus }}</td>
+			<td class='orderlisttd'> <input name="submit" type="button" onclick="parent.mainframe.location.href = '{{ path('admin_jobs_show', { 'id': entity.id }) }}'" value="Show"  /></td>
+			<td class='orderlisttd'><input name="submit" type="button" onclick="parent.mainframe.location.href = '{{ path('admin_jobs_edit', { 'id': entity.id }) }}'" value="Edit"  /></td>
+			<td class='orderlisttd'>
+				{{ form(arrayForms[loop.index0]) }}
+			</td>
+		</tr>
+        {% endfor %}
+        </table>
+		</fieldset>
+	</div>
+
+	{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+
+    {% endblock %}
+

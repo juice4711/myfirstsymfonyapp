@@ -1,0 +1,447 @@
+<?php
+
+namespace ExclusiveBooks\DemoAppBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use ExclusiveBooks\DemoAppBundle\Entity\JobDescription;
+use ExclusiveBooks\DemoAppBundle\Entity\Server;
+use ExclusiveBooks\DemoAppBundle\Entity\JobConfigData;
+use ExclusiveBooks\DemoAppBundle\Entity\JobLinkUsers;
+use ExclusiveBooks\DemoAppBundle\Form\JobDescriptionType;
+use ExclusiveBooks\DemoAppBundle\Form\JobConfigDataType;
+
+/**
+ * JobDescription controller.
+ *
+ */
+class JobDescriptionController extends Controller
+{
+
+    /**
+     * Lists all JobDescription entities.
+     *
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('ExclusiveBooksDemoAppBundle:JobDescription')->findAll();
+	$arrayForms = array();
+
+	foreach ($entities as $entity) 
+		{
+			$arrayForms[] = $this->cloneformShow($entity->getId())->createView();
+		}
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:index.html.twig', array(
+            'entities' => $entities,'arrayForms' => $arrayForms
+        ));
+    }
+	
+	
+	
+	
+    /**
+     * Creates a new JobDescription entity.
+     *
+     */
+    public function createAction(Request $request)
+    {
+        $entity = new JobDescription();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+			
+	    $meta1= new JobConfigData();
+            $meta1->initialiseNewJob($entity,"EmailAddress","contentworklist@exclusivebooks.co.za");
+	    $em->persist($meta1);
+	    
+	    $meta2= new JobConfigData();
+            $meta2->initialiseNewJob($entity,"LogPrefix","ETL");
+	    $em->persist($meta2);
+	    
+	    $meta3= new JobConfigData();
+            $meta3->initialiseNewJob($entity,"LogTable","ETLLOGS");
+            $em->persist($meta3);
+	    
+	    $em->flush();
+
+	    $this->container->get('audit_logger')->info($user = $this->getUser()->getUsername(). ' : A new job id#'.$entity->getId().' was created by user ');
+	    $this->addFlash('notice','The job was sucessfully created!');
+            return $this->redirect($this->generateUrl('admin_jobs_show', array('id' => $entity->getId())));
+        }
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to create a new JobDescription entity.
+     *
+     */
+    public function newAction()
+    {
+        $entity = new JobDescription();
+        $form   = $this->createCreateForm($entity);
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+	
+    /**
+     * Creates a form to clone a JobDescription entity.
+     *
+     */
+    public function cloneAction(JobDescription $entity2,$id)
+    {
+	
+        $entity = new JobDescription();
+	$entity->clonefromJob($entity2);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($entity);
+
+	$jobsconfig=$entity2->getJobconfig();
+	foreach($jobsconfig as $jobconfig)
+	{
+		$meta= new JobConfigData();
+		$meta->initialiseNewJob($entity,$jobconfig->getconfigName(),$jobconfig->getconfigValue());
+		$em->persist($meta);
+	}
+	$em->flush();
+        $this->addFlash('notice','The job was sucessfully cloned!');
+        return $this->redirect($this->generateUrl('admin_jobs'));
+        
+    }
+
+	
+    /**
+     * Finds and displays a JobDescription entity.
+     *
+     */
+    public function showAction(JobDescription $entity,$id)
+    {
+        $deleteForm = $this->createDeleteForm($id);
+	$users=$entity->getJoblink();
+	$config=$entity->getJobconfig();
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:show.html.twig', array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+	    'users' => $users,
+	    'config' => $config,
+	    
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing JobDescription entity.
+     *
+     */
+    public function editAction(JobDescription $entity,$id)
+    {
+		$arrayForms2 =array();
+		$arrayForms =array();
+       		$users=$entity->getJoblink();
+		foreach($users as $user)
+			{
+			$show = $this->createUnlinkForm($id,$user->getId(),'user')->createView();
+				$arrayForms[] = $show;
+			}
+		$config=$entity->getJobconfig();
+		foreach ($config as $line)
+			{
+			$show = $this->createUnlinkForm($id,$line->getId(),'config')->createView();
+				$arrayForms2[] = $show;
+			}
+		$editForm = $this->createEditForm($entity);
+		$deleteForm = $this->createDeleteForm($id);
+		$adduserForm = $this->createAddUserForm($id);
+		$addconfigForm = $this->createAddConfigForm(new JobConfigData(),$id);
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:edit.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+	    'adduser_form' => $adduserForm->createView(),
+	    'addconfig_form' => $addconfigForm->createView(),
+	    'users' => $users,'arrayForms' => $arrayForms,
+	    'config' => $config,'arrayForms2' => $arrayForms2,
+        ));
+    }
+
+    /**
+     * links an support user to an existing JobDescription entity.
+     *
+     */
+	 public function linkUserAction(Request $request, JobDescription $entity, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $adduserForm = $this->createAddUserForm($id);
+        $adduserForm->handleRequest($request);
+
+        if ($adduserForm->isValid()) {
+		
+	    $user= new JobLinkUsers();
+	    $data = $adduserForm->getData();
+		
+	    $joblink = $em->getRepository('ExclusiveBooksDemoAppBundle:JobDescription')->find($id);
+	    $userlink = $em->getRepository('ExclusiveBooksDemoAppBundle:SupportUser')->find($data->getUserId());
+	    $user->setUserId($data->getUserId());
+	    $user->setJobId($id);
+	    
+		$user->setLinkuser($userlink);		
+		$user->setLinkjob($joblink);
+		$em->persist($user);
+		$em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('admin_jobs_edit',array('id' => $id)));
+    }
+
+    /**
+     * unlinks an support user from an existing JobDescription entity.
+     *
+     */
+	public function unlinkAction(Request $request, $id)
+    {
+        $removeItemForm = $this->createUnlinkForm($id);
+        $removeItemForm->handleRequest($request);
+
+        if ($removeItemForm->isValid()) {
+	    $em = $this->getDoctrine()->getManager();
+		$data = $removeItemForm->getData();
+		$keyid= $data['keyid'];
+		$type= $data['type'];
+		
+		if ($type == 'user'){$entity = $em->getRepository('ExclusiveBooksDemoAppBundle:JobLinkUsers')->find($keyid);}
+		else{$entity = $em->getRepository('ExclusiveBooksDemoAppBundle:JobConfigData')->find($keyid);}
+
+		if (!$entity) {
+				throw $this->createNotFoundException('Unable to find User Link entity.');
+		}
+		$em->remove($entity);
+		$em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('admin_jobs_edit',array('id' => $id)));
+    }
+	
+    /**
+     * Edits an existing JobDescription entity.
+     *
+     */
+    public function updateAction(Request $request, JobDescription $entity, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->flush();
+	    $this->addFlash('notice','The job was sucessfully updated!');
+            return $this->redirect($this->generateUrl('admin_jobs', array('id' => $id)));
+        }
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:edit.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Add configuration variables to a JobDescription entity.
+     *
+     */
+	public function addconfigAction(Request $request, JobDescription $entity,$id)
+    {
+	$entity2 = new JobConfigData();
+        $addconfigForm = $this->createAddConfigForm($entity2,$id);
+        $addconfigForm ->handleRequest($request);
+
+	$em = $this->getDoctrine()->getManager();
+        
+        if ($addconfigForm ->isValid()) {
+	    $entity2->SetJob($entity);
+	    $em->persist($entity2);
+            $em->flush();
+            return $this->redirect($this->generateUrl('admin_jobs_edit', array('id' => $id)));
+        }
+
+        return $this->render('ExclusiveBooksDemoAppBundle:JobDescription:edit.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+	
+    /**
+     * Deletes a JobDescription entity.
+     *
+     */
+    public function deleteAction(Request $request, JobDescription $entity,$id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity->setjobStatus("D");
+	    $this->addFlash('notice','The job was sucessfully de-activated!');
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('admin_jobs'));
+    }
+	
+	
+	
+    /**
+     * Creates a form to create a JobDescription entity.
+     *
+     * @param JobDescription $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(JobDescription $entity)
+    {
+	$server_list = $this->getDoctrine()->getRepository('ExclusiveBooksDemoAppBundle:Server')->findAllActive();
+        $form = $this->createForm(new JobDescriptionType(), $entity, array(
+            'action' => $this->generateUrl('admin_jobs_create'),
+            'method' => 'POST',
+        ));
+        $form->add('server','entity' ,array('class' => 'ExclusiveBooksDemoAppBundle:Server','property' => 'serverName','choices' => $server_list));
+        $form->add('submit', 'submit', array('label' => 'Create'));
+
+        return $form;
+    }
+
+    
+
+    
+
+    /**
+    * Creates a form to edit a JobDescription entity.
+    *
+    * @param JobDescription $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditForm(JobDescription $entity)
+    {
+	$server_list = $this->getDoctrine()->getRepository('ExclusiveBooksDemoAppBundle:Server')->findAllActive();
+        $form = $this->createForm(new JobDescriptionType(), $entity, array(
+            'action' => $this->generateUrl('admin_jobs_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+	$form->add('server','entity' ,array('class' => 'ExclusiveBooksDemoAppBundle:Server','property' => 'serverName','choices' => $server_list));
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+
+	private function createAddConfigForm(JobConfigData $entity,$id)
+    {
+	$form = $this->createForm(new JobConfigDataType(),$entity,array(
+            'action' => $this->generateUrl('admin_jobs_configadd', array('id' => $id)),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Add'));
+
+        return $form;
+    }
+
+  /**
+    * Creates a form to add a support User to a JobDescription entity.
+    *
+    * @param mixed $id The entity The entity id
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createAddUserForm($id)
+    {
+	$user_list = $this->getDoctrine()->getRepository('ExclusiveBooksDemoAppBundle:SupportUser')->findAll();
+        $form = $this->createFormBuilder(new JobLinkUsers(),array(
+            'action' => $this->generateUrl('admin_link_user', array('id' => $id)),
+            'method' => 'POST',
+        ));
+
+	$form->add('UserId','entity' ,array('class' => 'ExclusiveBooksDemoAppBundle:SupportUser','property' => 'givenName','choices' => $user_list));
+        $form->add('submit', 'submit', array('label' => 'Link'));
+        return $form->getForm();
+     }
+
+
+
+   
+
+    /**
+     * Creates a form to delete a JobDescription entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_jobs_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'De-activate'))
+            ->getForm()
+        ;
+    }
+
+	/**
+     * Creates a form to clone a JobDescription entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function cloneformShow($id)
+    {
+        $show = $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_jobs_clone', array('id' => $id)))
+            ->setMethod('PUT')
+            ->add('Clone', 'submit',array('label' => 'Clone'))
+            ->getForm();
+
+        return $show;
+    }
+
+
+
+	/**
+     * Creates a form to unlink a SupportUser from JobDescription entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createUnlinkForm($entityid,$id =null,$type =null)
+    {
+
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_unlink_user', array('id' => $entityid)))
+            ->setMethod('POST')
+	    ->add('keyid' ,'hidden', array('data'=>$id))
+	    ->add('type' ,'hidden', array('data'=>$type))
+            ->add('submit', 'submit', array('label' => 'unlink'))
+            ->getForm()
+        ;
+    }
+}

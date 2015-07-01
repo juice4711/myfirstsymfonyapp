@@ -1,0 +1,41 @@
+<?php
+
+namespace ExclusiveBooks\DemoAppBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class ServerType extends AbstractType
+{
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('serverName')
+            ->add('serverLocation')
+            ->add('serverIP')
+        ;
+    }
+    
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'ExclusiveBooks\DemoAppBundle\Entity\Server'
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'exclusivebooks_demoappbundle_server';
+    }
+}

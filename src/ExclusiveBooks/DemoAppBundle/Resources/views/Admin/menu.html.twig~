@@ -1,0 +1,32 @@
+<div id="rightSide">
+  		<fieldset>
+		<legend>My Maintenance Functions</legend>
+         
+	    
+            <p><a href="{{ path('store_welcome') }}">
+                Store Home
+            </a></p>
+	    <p><a href="{{ path('admin_server') }}">
+                Server List
+            </a></p>
+            <p><a href="{{ path('admin_server_new') }}">
+                Add a Server
+            </a></p>
+            <p><a href="{{ path('admin_supportuser') }}">
+                User List
+            </a></p>
+	    <p><a href="{{ path('admin_supportuser_new') }}">
+                Add a User
+            </a></p>    
+	    <p><a href="{{ path('admin_jobs') }}">
+                Jobs List
+            </a></p>
+            <p><a href="{{ path('admin_jobs_new') }}">
+                Add a Job
+            </a></p>
+	    {% if app.user and is_granted('IS_AUTHENTICATED_FULLY')  %} <P><a href="{{ logout_path('default') }}">Logout</a> 
+	    {% else %}
+		 <P><a href="{{ path('login') }}">Login</a>
+            {% endif %}
+        </fieldset>
+  </div>

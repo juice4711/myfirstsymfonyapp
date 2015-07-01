@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+{{ form_start(edit_form) }}
+    <div id="clear">
+	<p>
+		{{ form_errors(edit_form.serverName) }}
+		{{ form_errors(edit_form.serverIP) }}
+		{{ form_errors(edit_form.serverLocation) }}
+		{{ form_errors(edit_form) }}
+	</p>
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Edit Server</legend>
+
+        	
+		{{ form_label(edit_form.serverName, 'Server Name') }}
+		<div class="div_texbox">{{ form_widget(edit_form.serverName) }}</div>
+		
+		{{ form_label(edit_form.serverIP, 'Server IP') }}
+		<div class="div_texbox">{{ form_widget(edit_form.serverIP) }}</div>
+		{{ form_label(edit_form.serverLocation, 'Server Location') }}
+		
+		<div class="div_texbox">{{ form_widget(edit_form.serverLocation) }}</div>
+		
+		<div class="button_div">{{ form_widget(edit_form.submit) }}</div>
+		{{ form_end(edit_form) }}
+		<div class="button_div">{{ form(delete_form) }}</div>
+		</fieldset>
+	</div>
+
+{{ form_end(edit_form) }}
+
+{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+{% endblock %}

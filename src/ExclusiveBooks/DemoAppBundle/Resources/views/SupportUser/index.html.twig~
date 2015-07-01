@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+  <div id="clear">
+		{% for flashMessage in app.session.flashbag.get('notice') %}
+		<div class="flash-notice">
+			{{ flashMessage }}
+		</div>
+		{% endfor %}
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Users</legend>
+
+			<table class='rightTable'>
+        {% for entity in entities %}
+		<tr class="{{ cycle(['orderlist highlight','orderlist'],loop.index) }}" >
+			<td class='orderlisttd'>{{ entity.userName }}</td>
+			<td class='orderlisttd'>{{ entity.givenName }}</td>
+			<td class='orderlisttd'>{{ entity.userEmail }}</td>
+			<td class='orderlisttd'><a href="{{ path('admin_supportuser_show', { 'id': entity.id }) }}">show</a></td>
+			<td class='orderlisttd'><a href="{{ path('admin_supportuser_edit', { 'id': entity.id }) }}">edit</a></td>
+		</tr>
+        {% endfor %}
+        </table>
+		</fieldset>
+	</div>
+
+	{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+
+    {% endblock %}

@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+ {% block body %}
+     <p>Product Id: {{ product.Id }}</p>
+     <p>Name: {{ product.name }}</p>
+	{% if product.price == 0  %}
+     <p><font color='red'> Price not found - please contact sales department!</font></p>
+	{% else  %}
+     <p>Price: {{ product.price }}</p>
+	{% endif %}
+ {% endblock %}

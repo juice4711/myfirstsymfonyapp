@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {{ form_start(edit_form) }}
+	<div id="clear">
+	<p>
+		{{ form_errors(edit_form.userName) }}
+		{{ form_errors(edit_form.givenName) }}
+		{{ form_errors(edit_form.userContact) }}
+		{{ form_errors(edit_form.userContactAlt) }}
+		{{ form_errors(edit_form.userContactInternal) }}
+		{{ form_errors(edit_form.userEmail) }}
+		{{ form_errors(edit_form.userEmailAlt) }}
+		{{ form_errors(edit_form.cerberusID) }}
+		{{ form_errors(edit_form.avatar) }}
+		{{ form_errors(form) }}
+	</p>
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Edit Support User</legend>
+		
+		{{ form_label(edit_form.userName, 'User Name') }}
+		<div class="div_texbox">{{ form_widget(edit_form.userName) }}</div>
+		
+		{{ form_label(edit_form.givenName, 'Given Name') }}
+		<div class="div_texbox">{{ form_widget(edit_form.givenName) }}</div>
+
+		{{ form_label(edit_form.userContact, 'Contact') }}
+		<div class="div_texbox">{{ form_widget(edit_form.userContact) }}</div>
+
+		{{ form_label(edit_form.userContactAlt, 'Contact Alternate') }}
+		<div class="div_texbox">{{ form_widget(edit_form.userContactAlt) }}</div>
+	
+		{{ form_label(edit_form.userContactInternal, 'Contact Internal') }}
+		<div class="div_texbox">{{ form_widget(edit_form.userContactInternal) }}</div>
+	
+		{{ form_label(edit_form.userEmail, 'Email') }}
+		<div class="div_texbox">{{ form_widget(edit_form.userEmail) }}</div>
+
+		{{ form_label(edit_form.userEmailAlt, 'Email Alternate') }}
+		<div class="div_texbox">{{ form_widget(edit_form.userEmailAlt) }}</div>
+
+		{{ form_label(edit_form.cerberusID, 'Cerberus Id') }}
+		<div class="div_texbox">{{ form_widget(edit_form.cerberusID) }}</div>
+
+		{{ form_label(edit_form.avatar, 'Avatar') }}
+		<div class="div_texbox">{{ form_widget(edit_form.avatar) }}</div>
+	
+		<div class="button_div">{{ form_widget(edit_form.submit) }}</div>
+		</fieldset>
+	</div>
+{{ form_end(edit_form) }}
+
+{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+{% endblock %}
+
+

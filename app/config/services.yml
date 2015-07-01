@@ -1,0 +1,22 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.twig_extension:
+        class: ExclusiveBooks\DemoAppBundle\Twig\AppExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+    audit_logger:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: [audit]
+        calls:
+            - [pushHandler, [@audit_handler]]
+    audit_handler:
+        class: Monolog\Handler\StreamHandler
+        arguments: [%kernel.logs_dir%/%kernel.environment%.audit.log]
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

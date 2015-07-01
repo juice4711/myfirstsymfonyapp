@@ -1,0 +1,18 @@
+imports:
+    - { resource: "@ExclusiveBooksDemoAppBundle/Resources/config/config/smsnotification.yml" }
+
+fos_rest:
+    routing_loader:
+        default_format: json
+    format_listener:
+        rules:
+            priorities: [json, xml]
+            fallback_format: json
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+            xml: true 
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }

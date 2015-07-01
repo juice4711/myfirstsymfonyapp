@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {{ form_start(form) }}
+	<div id="clear">
+	<p>
+		{{ form_errors(form.jobIdentifier) }}
+		{{ form_errors(form.jobName) }}
+		{{ form_errors(form.jobComment) }}
+		{{ form_errors(form.runType) }}
+		{{ form_errors(form.scriptLocation) }}
+		{{ form_errors(form.scriptIdentifier) }}
+		{{ form_errors(form.controlTable) }}
+		{{ form_errors(form.jobArguments) }}
+		{{ form_errors(form.escalationChain) }}
+		{{ form_errors(form.server) }}
+		{{ form_errors(form) }}
+	</p>
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Add ETL Job</legend>
+		
+		{{ form_label(form.jobIdentifier, 'Job Identifier') }}
+		<div class="div_texbox">{{ form_widget(form.jobIdentifier) }}</div>
+		
+		{{ form_label(form.jobName, 'Job Name') }}
+		<div class="div_texbox">{{ form_widget(form.jobName) }}</div>
+
+		{{ form_label(form.jobComment, 'Comments') }}
+		<div class="div_textbox">{{ form_widget(form.jobComment) }}</div>
+
+		{{ form_label(form.cronSchedule, 'Run Type') }}
+		<div class="div_texbox">{{ form_widget(form.runType) }}</div>
+
+		{{ form_label(form.cronSchedule, 'Cron Schedule') }}
+		<div class="div_texbox">{{ form_widget(form.cronSchedule) }}</div>
+	
+		{{ form_label(form.scriptLocation, 'Script Location') }}
+		<div class="div_texbox">{{ form_widget(form.scriptLocation) }}</div>
+	
+		{{ form_label(form.scriptIdentifier, 'Script Identifier') }}
+		<div class="div_texbox">{{ form_widget(form.scriptIdentifier) }}</div>
+
+		{{ form_label(form.controlTable, 'Control Table') }}
+		<div class="div_texbox">{{ form_widget(form.controlTable) }}</div>
+
+		{{ form_label(form.jobArguments, 'Job Arguments') }}
+		<div class="div_texbox">{{ form_widget(form.jobArguments) }}</div>
+
+		{{ form_label(form.escalationChain, 'Escalation Chain') }}
+		<div class="div_texbox">{{ form_widget(form.escalationChain) }}</div>
+	
+		{{ form_label(form.server, 'Default Server') }}
+		<div class="div_texbox">{{ form_widget(form.server) }}</div>
+	
+		<div class="button_div">{{ form_widget(form.submit) }}</div>
+		</fieldset>
+	</div>
+{{ form_end(form) }}
+
+{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+{% endblock %}
+

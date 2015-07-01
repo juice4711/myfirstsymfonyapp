@@ -1,0 +1,30 @@
+admin_server:
+    path:     /
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:index" }
+
+admin_server_show:
+    path:     /{id}/show
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:show" }
+
+admin_server_new:
+    path:     /new
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:new" }
+
+admin_server_create:
+    path:     /create
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:create" }
+    methods:  POST
+
+admin_server_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:edit" }
+
+admin_server_update:
+    path:     /{id}/update
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:update" }
+    methods:  [POST, PUT]
+
+admin_server_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Server:delete" }
+    methods:  [POST, DELETE]

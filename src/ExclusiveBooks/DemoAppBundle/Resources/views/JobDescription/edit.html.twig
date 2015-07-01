@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {{ form_start(edit_form) }}
+	<div id="clear">
+	<p>
+		{{ form_errors(edit_form.jobIdentifier) }}
+		{{ form_errors(edit_form.jobName) }}
+		{{ form_errors(edit_form.jobComment) }}
+		{{ form_errors(edit_form.runType) }}
+		{{ form_errors(edit_form.scriptLocation) }}
+		{{ form_errors(edit_form.scriptIdentifier) }}
+		{{ form_errors(edit_form.controlTable) }}
+		{{ form_errors(edit_form.jobArguments) }}
+		{{ form_errors(edit_form.escalationChain) }}
+		{{ form_errors(edit_form.server) }}
+		{{ form_errors(edit_form) }}
+	</p>
+	</div>
+	<div id="leftSide">
+		<fieldset>
+		<legend>Update ETL Job</legend>
+		
+		{{ form_label(edit_form.jobIdentifier, 'Job Identifier') }}
+		<div class="div_texbox">{{ form_widget(edit_form.jobIdentifier) }}</div>
+		
+		{{ form_label(edit_form.jobName, 'Job Name') }}
+		<div class="div_texbox">{{ form_widget(edit_form.jobName) }}</div>
+
+		{{ form_label(edit_form.jobComment, 'Comments') }}
+		<div class="div_textbox">{{ form_widget(edit_form.jobComment) }}</div>
+
+		{{ form_label(edit_form.cronSchedule, 'Run Type') }}
+		<div class="div_texbox">{{ form_widget(edit_form.runType) }}</div>
+
+		{{ form_label(edit_form.cronSchedule, 'Cron Schedule') }}
+		<div class="div_texbox">{{ form_widget(edit_form.cronSchedule) }}</div>
+	
+		{{ form_label(edit_form.scriptLocation, 'Script Location') }}
+		<div class="div_texbox">{{ form_widget(edit_form.scriptLocation) }}</div>
+	
+		{{ form_label(edit_form.scriptIdentifier, 'Script Identifier') }}
+		<div class="div_texbox">{{ form_widget(edit_form.scriptIdentifier) }}</div>
+
+		{{ form_label(edit_form.controlTable, 'Control Table') }}
+		<div class="div_texbox">{{ form_widget(edit_form.controlTable) }}</div>
+
+		{{ form_label(edit_form.jobArguments, 'Job Arguments') }}
+		<div class="div_texbox">{{ form_widget(edit_form.jobArguments) }}</div>
+
+		{{ form_label(edit_form.escalationChain, 'Escalation Chain') }}
+		<div class="div_texbox">{{ form_widget(edit_form.escalationChain) }}</div>
+	
+		{{ form_label(edit_form.server, 'Default Server') }}
+		<div class="div_texbox">{{ form_widget(edit_form.server) }}</div>
+	
+		<div class="button_div">{{ form_widget(edit_form.submit) }}</div>
+		{{ form_end(edit_form) }}
+		</fieldset>
+		<p>
+	<fieldset>
+		<legend>Config Variables</legend>
+		<table class='rightTable'>
+		{% for line in config %}
+			<tr class="{{ cycle(['orderlist highlight','orderlist'],loop.index) }}" >
+			<td class='orderlisttd'>{{ line.configName }}</td>
+			<td class='orderlisttd'>{{ line.configValue }}</td>
+			<td class='orderlisttd'>{{ form(arrayForms2[loop.index0]) }} </td>
+		</tr>
+		{% endfor %}
+		</table>
+		{{ form_start(addconfig_form) }}
+		{{ form_label(addconfig_form.configName, 'Attribute Name') }}
+		<div class="div_texbox">{{ form_widget(addconfig_form.configName) }}</div>
+		{{ form_label(addconfig_form.configValue, 'Attribute Value') }}
+		<div class="div_texbox">{{ form_widget(addconfig_form.configValue) }}</div>
+		<div class="button_div">{{ form_widget(addconfig_form.submit) }}</div>
+		{{ form_end(addconfig_form) }}
+
+	</fieldset>
+	<p>
+	</div>
+	
+{{ form_end(edit_form) }}
+	<div id="rightSide">
+		<fieldset>
+		<legend>Linked Support Users</legend>
+		<table class='rightTable'>
+		{% for user in users %}
+			<tr class="{{ cycle(['orderlist highlight','orderlist'],loop.index) }}" >
+			<td class='orderlisttd'>{{ user.linkuser.avatar|raw }}</td>
+			<td class='orderlisttd'>{{ user.linkuser.userName }}</td>
+			<td class='orderlisttd'>{{ user.linkuser.givenName }}</td>
+			<td class='orderlisttd'>{{ user.linkuser.userEmail }}</td>
+			<td class='orderlisttd'>{{ form(arrayForms[loop.index0]) }} </td>
+			</tr>
+		{% endfor %}
+		</table>
+		{{ form_start(adduser_form) }}
+		{{ form_label(adduser_form.UserId, 'Link Support User') }}
+		<div class="div_texbox">{{ form_widget(adduser_form.UserId) }}</div>
+		<div class="button_div">{{ form_widget(adduser_form.submit) }}</div>
+		{{ form_end(adduser_form) }}
+	</fieldset>
+	</div>
+{{ render(controller('ExclusiveBooksDemoAppBundle:Admin:mainmenu')) }}
+{% endblock %}
+

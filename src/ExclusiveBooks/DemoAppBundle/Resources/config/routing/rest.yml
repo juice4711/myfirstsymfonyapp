@@ -1,0 +1,12 @@
+rest_smsaudit_show:
+    path:     /{id}/show
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Rest:show", _format: ~  }
+    requirements:
+        _method: GET
+rest_smsaudit_showall:
+    path:     /showall
+    defaults: { _controller: "ExclusiveBooksDemoAppBundle:Rest:showAll" , _format: ~ }
+    requirements:
+        _method: GET
+
+

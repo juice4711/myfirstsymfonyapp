@@ -1,0 +1,38 @@
+ExclusiveBooks\DemoAppBundle\Entity\Server:
+    type: entity
+    table: null
+    repositoryClass: ExclusiveBooks\DemoAppBundle\Entity\ServerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        serverName:
+            type: string
+            length: '100'
+            column: ServerName
+        serverLocation:
+            type: string
+            length: '100'
+            column: ServerLocation
+        serverIP:
+            type: string
+            length: '60'
+            column: ServerIP
+        serverStatus:
+            type: string
+            length: '2'
+            column: ServerStatus
+        serverProcesses:
+            type: text
+            column: ServerProcesses
+    lifecycleCallbacks:
+        prePersist: [setDefaultsOnCreate]
+    oneToMany:
+        jobs:
+            targetEntity: JobDescription
+            mappedBy: server
+
+

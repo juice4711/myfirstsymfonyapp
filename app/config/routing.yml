@@ -1,0 +1,9 @@
+exclusive_books_demo_app:
+    resource: "@ExclusiveBooksDemoAppBundle/Resources/config/routing.yml"
+    prefix:   /
+logout:
+      path:   /admin/logout
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+

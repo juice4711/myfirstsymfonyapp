@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+ {% block body %}
+   {% fore product in products %}
+     <p><span style="padding:5">Product Id: {{ product.Id }}</span>
+     <span style="padding:5">Name: {{ product.name }}</span>
+	{% if product.price == 0  %}
+     <span style="padding:5"><font color='red'> Price not found - please contact sales department!</font></span>
+	{% else  %}
+     <span>Price: {{ product.price }}</span>
+	{% endif %}
+     </p>
+    {% endfor %}
+ {% endblock %}

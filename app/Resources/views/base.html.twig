@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link href="{{ asset('css/forms.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+	<script type="text/javascript">
+		    function displayRow(sfld1){
+			var row1 = document.getElementById(sfld1);
+			if (row1.style.display == "")  {row1.style.display = 'none';show1='none';}
+			else {row1.style.display = '';show1='';}
+	
+		    }
+   
+	</script>
+    </head>
+    <body>
+	<div id="container">
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        </div>
+    </body>
+</html>

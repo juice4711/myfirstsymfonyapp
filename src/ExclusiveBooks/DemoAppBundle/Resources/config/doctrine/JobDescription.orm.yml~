@@ -1,0 +1,72 @@
+ExclusiveBooks\DemoAppBundle\Entity\JobDescription:
+    type: entity
+    table: null
+    repositoryClass: ExclusiveBooks\DemoAppBundle\Entity\JobDescriptionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        jobIdentifier:
+            type: string
+            length: '20'
+            column: JobIdentifier
+        jobName:
+            type: string
+            length: '100'
+            column: JobName
+        jobComment:
+            type: text
+            column: JobComment
+        cronSchedule:
+            type: string
+            length: '150'
+            column: CronSchedule
+        scriptLocation:
+            type: string
+            length: '100'
+            column: ScriptLocation
+        scriptIdentifier:
+            type: string
+            length: '60'
+            column: ScriptIdentifier
+        jobStatus:
+            type: string
+            length: '2'
+            column: JobStatus
+        controlTable:
+            type: string
+            length: '20'
+            column: ControlTable
+        jobArguments:
+            type: string
+            length: '20'
+            column: JobArguments
+        escalationChain:
+            type: string
+            length: '20'
+            column: escalationChain
+        runType:
+            type: string
+            length: '20'
+            column: runType
+    lifecycleCallbacks:
+        prePersist: [setDefaultsOnCreate]
+    manyToOne:
+        server:
+            targetEntity: Server
+            inversedBy: jobs
+            joinColumn:
+                name: server_id
+                referencedColumnName: id
+    oneToMany:
+        jobconfig:
+            targetEntity: JobConfigData
+            mappedBy: job
+    oneToMany:
+        joblink:
+            targetEntity: JobLinkUsers
+            mappedBy: linkjob
+
